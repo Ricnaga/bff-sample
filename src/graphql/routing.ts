@@ -1,27 +1,16 @@
 import { Environment } from "@/config";
 import { logInfo, logError, logWarning } from "@/logger";
+import { schema } from "@/pothos/schema";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { koaMiddleware } from "@as-integrations/koa";
 import { Server } from "http";
 import Koa from "koa";
-import { loggingPlugin } from "./graphqlPlugins";
+import { loggingPlugin } from "./plugins";
 import {
   createSubscriptionServer,
   destroySubscriptionServer,
-} from "./graphqSubscription";
-
-const typeDefs = `#graphql
-  type Query {
-    hello: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => "world",
-  },
-};
+} from "./subscriptionServer";
 
 export async function initGraphqlRouting(app: Koa, httpServer: Server) {
   const apolloServer = await createApolloServer(httpServer);
@@ -32,13 +21,12 @@ async function createApolloServer(
   httpServer: Server
 ): Promise<ApolloServer<BaseContext>> {
   const { serverCleanup } = await createSubscriptionServer(
-    undefined,
+    schema,
     httpServer
   );
 
   const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     introspection: process.env.ENV !== Environment.Production,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),

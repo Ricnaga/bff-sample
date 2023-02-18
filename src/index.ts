@@ -4,8 +4,8 @@ import http from 'http';
 import Koa from 'koa';
 import bodyParser from "koa-bodyparser";
 import loggerMiddleware from 'koa-logger';
+import { initGraphqlRouting } from './graphql/routing';
 import { log } from './logger';
-import { initGraphqlRouting } from './routing/graphql/graphqlRouting';
 
 const app = new Koa();
 const httpServer = http.createServer(app.callback());
