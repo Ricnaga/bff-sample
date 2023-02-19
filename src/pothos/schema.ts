@@ -1,23 +1,11 @@
-import SchemaBuilder from "@pothos/core";
-import RelayPlugin from "@pothos/plugin-relay";
+import { rootPath } from "@/config";
+import { writeFileSync } from "fs";
+import { printSchema, lexicographicSortSchema } from "graphql";
+import { builder } from "./builder";
 
-const builder = new SchemaBuilder({
-  plugins: [RelayPlugin],
-  relayOptions: {
-    clientMutationId: "optional",
-    cursorType: "String",
-  }
-});
-
-builder.queryType({
-  fields: (t) => ({
-    hello: t.string({
-      args: {
-        name: t.arg.string(),
-      },
-      resolve: (parent, { name }) => `hello, ${name || 'World'}`,
-    }),
-  }),
-});
+import './resolvers'
 
 export const schema = builder.toSchema();
+
+const schemaAsString = printSchema(lexicographicSortSchema(schema));
+writeFileSync(rootPath('data/schema.graphql'), schemaAsString);
