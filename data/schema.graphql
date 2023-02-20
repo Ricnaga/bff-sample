@@ -26,5 +26,5 @@ type Sample {
 }
 
 input SampleInput {
-  name: String
+  name: ID!
 }

@@ -1,10 +1,10 @@
 import { Sample } from "@/domain/sample/sampleDomain";
 import { builder } from "@/pothosGql/builder";
-import { encodeGlobalID } from "@pothos/plugin-relay";
+import { encodeGlobalID, decodeGlobalID } from "@pothos/plugin-relay";
 
 const SampleInput = builder.inputType("SampleInput", {
   fields: (t) => ({
-    name: t.string(),
+    name: t.id({ required: true }),
   }),
 });
 
@@ -19,7 +19,10 @@ builder.objectType(Sample, {
       args: {
         input: t.arg({ type: SampleInput, required: true }),
       },
-      resolve: (parent, { input }) => `hello, ${input.name || "World"}`,
+      resolve: (parent, { input }) => {
+        const { id: name } = decodeGlobalID(input.name.toString());
+        return `hello, ${name ?? "World"}`;
+      },
     }),
     lastName: t.exposeString("sobrenome"),
   }),
