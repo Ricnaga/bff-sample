@@ -4,7 +4,12 @@ type MoreSample {
   moreLastName: String!
   moreName: String!
   moreSampleObject: Sample!
-  moreUuid: String!
+  moreUuid: ID!
+}
+
+type Mutation {
+  firstMoreSample: MoreSample!
+  secondMoreSample: MoreSample!
 }
 
 type Query {
@@ -17,7 +22,7 @@ type Query {
 type Sample {
   lastName: String!
   name(input: SampleInput!): String!
-  uuid: String!
+  uuid: ID!
 }
 
 input SampleInput {

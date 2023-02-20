@@ -4,6 +4,7 @@ import { printSchema, lexicographicSortSchema } from "graphql";
 import { builder } from "./builder";
 
 builder.queryType({})
+builder.mutationType({})
 
 import './resolvers'
 

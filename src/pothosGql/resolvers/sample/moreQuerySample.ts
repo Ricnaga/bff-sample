@@ -1,20 +1,23 @@
 import { MoreSample } from "@/domain/sample/moreSampleDomain";
 import { Sample } from "@/domain/sample/sampleDomain";
 import { builder } from "@/pothosGql/builder";
+import { encodeGlobalID } from "@pothos/plugin-relay";
 
 builder.objectType(MoreSample, {
   name: "MoreSample",
   description: "This is a MORE Sample.",
   fields: (t) => ({
-    moreUuid: t.exposeString("moreSampleId"),
-    moreName: t.exposeString("moreSampleINome"),
-    moreLastName: t.exposeString("moreSampleISobrenome"),
+    moreUuid: t.globalID({
+      resolve: (parent) => encodeGlobalID(MoreSample.name, parent.moreSampleId),
+    }),
+    moreName: t.exposeString("moreSampleNome"),
+    moreLastName: t.exposeString("moreSampleSobrenome"),
   }),
 });
 
 builder.objectField(MoreSample, "OtherName", (t) =>
   t.string({
-    resolve: (parent) => "OTHER" + parent.moreSampleINome,
+    resolve: (parent) => "OTHER" + parent.moreSampleNome,
   })
 );
 
@@ -30,12 +33,12 @@ builder.objectFields(MoreSample, (t) => ({
   }),
 }));
 
-builder.queryField("secondMoreExample", (t) =>
+builder.queryField("firstMoreSample", (t) =>
   t.field({
     type: MoreSample,
     resolve: () =>
       new MoreSample(
-        "firstMoreSampleId",
+        "60276866-df8b-4b67-8d9d-e311d7dffcba",
         "firstMoreSampleName",
         "firstMoreSampleLastName"
       ),
@@ -43,7 +46,7 @@ builder.queryField("secondMoreExample", (t) =>
 );
 
 builder.queryFields((t) => ({
-  firstMoreSample: t.field({
+  secondMoreExample: t.field({
     type: MoreSample,
     resolve: () =>
       new MoreSample(

@@ -1,5 +1,6 @@
 import { Sample } from "@/domain/sample/sampleDomain";
 import { builder } from "@/pothosGql/builder";
+import { encodeGlobalID } from "@pothos/plugin-relay";
 
 const SampleInput = builder.inputType("SampleInput", {
   fields: (t) => ({
@@ -11,7 +12,9 @@ builder.objectType(Sample, {
   name: "Sample",
   description: "This is a Sample.",
   fields: (t) => ({
-    uuid: t.exposeString("id"),
+    uuid: t.globalID({
+      resolve: (parent) => encodeGlobalID(Sample.name, parent.id),
+    }),
     name: t.string({
       args: {
         input: t.arg({ type: SampleInput, required: true }),
@@ -27,5 +30,4 @@ builder.queryFields((t) => ({
     type: Sample,
     resolve: () => new Sample("sampleId", "sampleName", "sampleLastName"),
   }),
-}))
-
+}));
