@@ -1,3 +1,25 @@
+"""This is a MORE Sample."""
+type MoreSample {
+  OtherName: String!
+  moreLastName: String!
+  moreName: String!
+  moreSampleObject: Sample!
+  moreUuid: String!
+}
+
 type Query {
-  hello(name: String): String!
+  firstMoreSample: MoreSample!
+  sample: Sample!
+  secondMoreExample: MoreSample!
+}
+
+"""This is a Sample."""
+type Sample {
+  lastName: String!
+  name(input: SampleInput!): String!
+  uuid: String!
+}
+
+input SampleInput {
+  name: String
 }
