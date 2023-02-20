@@ -1,5 +1,5 @@
 import { Sample } from "@/domain/sample/sampleDomain";
-import { builder } from "@/pothos/builder";
+import { builder } from "@/pothosGql/builder";
 
 const SampleInput = builder.inputType("SampleInput", {
   fields: (t) => ({

@@ -1,6 +1,6 @@
 import { Environment } from "@/config";
 import { logInfo, logError, logWarning } from "@/logger";
-import { schema } from "@/pothos/schema";
+import { schema } from "@/pothosGql/schema";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { koaMiddleware } from "@as-integrations/koa";

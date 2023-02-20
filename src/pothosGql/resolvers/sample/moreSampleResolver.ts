@@ -1,6 +1,6 @@
 import { MoreSample } from "@/domain/sample/moreSampleDomain";
 import { Sample } from "@/domain/sample/sampleDomain";
-import { builder } from "@/pothos/builder";
+import { builder } from "@/pothosGql/builder";
 
 builder.objectType(MoreSample, {
   name: "MoreSample",
