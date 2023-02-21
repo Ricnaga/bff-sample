@@ -1,4 +1,4 @@
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 const path = require("path");
 const webpack = require("webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
@@ -21,8 +21,11 @@ module.exports = (envFile) => ({
       }),
     ],
     alias: {
-      '@/': path.join(process.cwd(), 'src'),
-    }
+      "@/": path.join(process.cwd(), "src"),
+    },
+  },
+  experiments: {
+    topLevelAwait: true,
   },
   module: {
     rules: [

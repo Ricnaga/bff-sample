@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import './config';
 import cors from '@koa/cors';
 import http from 'http';
