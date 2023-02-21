@@ -9,6 +9,7 @@ type MoreSample {
 
 type Mutation {
   firstMoreSample: MoreSample!
+  relaySample(input: RelaySampleInput!): RelaySamplePayload!
   secondMoreSample: MoreSample!
 }
 
@@ -16,6 +17,18 @@ type Query {
   firstMoreSample: MoreSample!
   sample: Sample!
   secondMoreExample: MoreSample!
+}
+
+input RelaySampleInput {
+  clientMutationId: ID
+  id: ID!
+  nome: String
+  sobrenome: String
+}
+
+type RelaySamplePayload {
+  clientMutationId: ID
+  noGlobalID: Sample!
 }
 
 """This is a Sample."""
