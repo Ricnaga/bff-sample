@@ -1,3 +1,6 @@
+"""This is a Date Scalar"""
+scalar Date
+
 """This is a MORE Sample."""
 type MoreSample {
   OtherName: String!

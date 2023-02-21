@@ -7,6 +7,7 @@ builder.queryType({})
 builder.mutationType({})
 
 import './resolvers'
+import './scalar'
 import './enum'
 
 export const schema = builder.toSchema();

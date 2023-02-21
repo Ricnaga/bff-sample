@@ -1,1 +1,1 @@
-export const scalar = "scalar"
+import './DateScalar'
