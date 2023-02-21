@@ -7,9 +7,9 @@ builder.queryType({})
 builder.mutationType({})
 
 import './resolvers'
+import './enum'
 
 export const schema = builder.toSchema();
-
 
 const schemaAsString = printSchema(lexicographicSortSchema(schema));
 writeFileSync(rootPath('data', 'schema.graphql'), schemaAsString);

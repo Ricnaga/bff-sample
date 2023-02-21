@@ -14,6 +14,7 @@ builder.relayMutationField(
       sobrenome: t.string({
         required: false,
       }),
+      tipoEnum: t.string(),
     }),
   },
   {

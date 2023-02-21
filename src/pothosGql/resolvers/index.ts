@@ -1,4 +1,6 @@
-import './sample/querySample';
+import './sample/moreMutationSample';
 import './sample/moreQuerySample';
 import './sample/mutationSample';
-import './sample/moreMutationSample';
+import './sample/querySample';
+import './sample/otherQuerySample';
+

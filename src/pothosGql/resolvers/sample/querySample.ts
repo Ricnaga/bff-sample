@@ -1,10 +1,12 @@
 import { Sample } from "@/domain/sample/sampleDomain";
 import { builder } from "@/pothosGql/builder";
+import { SampleEnum } from "@/pothosGql/enum/sample/sampleEnum";
 import { encodeGlobalID, decodeGlobalID } from "@pothos/plugin-relay";
 
 const SampleInput = builder.inputType("SampleInput", {
   fields: (t) => ({
     name: t.id({ required: true }),
+    sampleTipo: t.field({ type: SampleEnum }),
   }),
 });
 
