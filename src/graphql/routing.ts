@@ -13,18 +13,7 @@ import {
   destroySubscriptionServer,
 } from "./subscriptionServer";
 
-export async function initGraphqlRouting(app: Koa, httpServer: Server) {
-  const apolloServer = await createApolloServer(httpServer);
-  app.use(
-    koaMiddleware(apolloServer, {
-      context: graphQLContext(),
-    })
-  );
-}
-
-async function createApolloServer(
-  httpServer: Server
-): Promise<ApolloServer<GraphQLContext>> {
+export async function createApolloServer(app: Koa, httpServer: Server) {
   const { serverCleanup } = await createSubscriptionServer(schema, httpServer);
 
   const apolloServer = new ApolloServer<GraphQLContext>({
@@ -43,6 +32,13 @@ async function createApolloServer(
     },
   });
 
+  
   await apolloServer.start();
-  return apolloServer;
+  
+  app.use(
+    koaMiddleware(apolloServer, {
+      context: graphQLContext(),
+    })
+  );
 }
+

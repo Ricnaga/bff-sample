@@ -1,21 +1,23 @@
+import { Sample } from "@/domain/sample/sampleDomain";
 import { type GraphQLContext } from "@/graphql/context";
-import { toGlobalId } from "graphql-relay";
 import { Ctx, Field, ObjectType, Query, Resolver } from "type-graphql";
 
 @ObjectType()
-class Sample {
+export class SampleType implements Sample {
   @Field()
-  id: string;
+  id: string = "id";
 
-  constructor(sample: Sample) {
-    this.id = toGlobalId(Sample.name, sample.id);
-  }
+  @Field()
+  nome: string = "nome";
+
+  @Field()
+  sobrenome: string = "sobrenome";
 }
 
 @Resolver()
 export class SampleResolver {
-  @Query((returns) => Sample)
-  async getAllSample(@Ctx() ctx: GraphQLContext): Promise<Sample> {
-    return new Sample({ id: (await ctx).adapters.index });
+  @Query((returns) => SampleType)
+  async getAllSample(@Ctx() ctx: GraphQLContext): Promise<Array<Sample>> {
+    return ctx.adapters.microservice.sample();
   }
 }

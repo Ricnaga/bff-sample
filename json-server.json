@@ -1,4 +1,10 @@
 {
-  "sample": [],
+  "sample": [
+    {
+      "id": "ID",
+      "name": "NAME",
+      "lastName": "LAST_NAME"
+    }
+  ],
   "moreSample": []
 }

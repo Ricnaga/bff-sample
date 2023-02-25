@@ -5,9 +5,9 @@ type Context = {
   ctx: Ctx;
 };
 
-export type GraphQLContext = Promise<{
+export type GraphQLContext = {
   adapters: typeof adapters;
-}>;
+};
 
 export const graphQLContext =
   () =>
