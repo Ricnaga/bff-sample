@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type Query {
-  sample: Sample!
+  getAllSample: Sample!
 }
 
 type Sample {

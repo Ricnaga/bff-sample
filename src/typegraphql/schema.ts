@@ -1,8 +1,9 @@
 import { rootPath } from "@/config";
 import { buildSchema } from "type-graphql";
-import { SampleResolver } from "./resolvers";
+import { resolvers } from "./resolvers";
 
 export const schema = await buildSchema({
-  resolvers: [SampleResolver],
+  resolvers,
+  container: ({ context }) => context,
   emitSchemaFile: rootPath("data", "schema.graphql"),
 });

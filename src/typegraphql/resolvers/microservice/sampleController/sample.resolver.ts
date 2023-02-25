@@ -11,16 +11,13 @@ class Sample {
   }
 }
 
-@Resolver()
+@Resolver(Sample)
 export class SampleResolver {
-  private data: Sample;
 
-  constructor(sample: Sample) {
-    this.data = new Sample({ id: 'sample.id' });
-  }
+  constructor(private sample: Sample) {}
 
   @Query((returns) => Sample)
-  async sample(): Promise<Sample> {
-    return this.data;
+  async getAllSample(): Promise<Sample> {
+    return this.sample;
   }
 }

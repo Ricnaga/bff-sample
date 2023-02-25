@@ -14,16 +14,17 @@ import {
 
 export async function initGraphqlRouting(app: Koa, httpServer: Server) {
   const apolloServer = await createApolloServer(httpServer);
-  app.use(koaMiddleware(apolloServer));
+  app.use(
+    koaMiddleware(apolloServer, {
+      context: async (params) => params,
+    })
+  );
 }
 
 async function createApolloServer(
   httpServer: Server
 ): Promise<ApolloServer<BaseContext>> {
-  const { serverCleanup } = await createSubscriptionServer(
-    schema,
-    httpServer
-  );
+  const { serverCleanup } = await createSubscriptionServer(schema, httpServer);
 
   const apolloServer = new ApolloServer({
     schema,
