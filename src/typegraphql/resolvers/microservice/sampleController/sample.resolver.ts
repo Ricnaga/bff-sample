@@ -1,5 +1,6 @@
+import { type GraphQLContext } from "@/graphql/context";
 import { toGlobalId } from "graphql-relay";
-import { Field, ObjectType, Query, Resolver } from "type-graphql";
+import { Ctx, Field, ObjectType, Query, Resolver } from "type-graphql";
 
 @ObjectType()
 class Sample {
@@ -11,13 +12,10 @@ class Sample {
   }
 }
 
-@Resolver(Sample)
+@Resolver()
 export class SampleResolver {
-
-  constructor(private sample: Sample) {}
-
   @Query((returns) => Sample)
-  async getAllSample(): Promise<Sample> {
-    return this.sample;
+  async getAllSample(@Ctx() ctx: GraphQLContext): Promise<Sample> {
+    return new Sample({ id: (await ctx).adapters.index });
   }
 }

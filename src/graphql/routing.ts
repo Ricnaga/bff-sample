@@ -1,11 +1,12 @@
 import { Environment } from "@/config";
-import { logInfo, logError, logWarning } from "@/logger";
+import { logError, logInfo, logWarning } from "@/logger";
 import { schema } from "@/typegraphql/schema";
-import { ApolloServer, BaseContext } from "@apollo/server";
+import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { koaMiddleware } from "@as-integrations/koa";
 import { Server } from "http";
 import Koa from "koa";
+import { GraphQLContext, graphQLContext } from "./context";
 import { loggingPlugin } from "./plugins";
 import {
   createSubscriptionServer,
@@ -16,17 +17,17 @@ export async function initGraphqlRouting(app: Koa, httpServer: Server) {
   const apolloServer = await createApolloServer(httpServer);
   app.use(
     koaMiddleware(apolloServer, {
-      context: async (params) => params,
+      context: graphQLContext(),
     })
   );
 }
 
 async function createApolloServer(
   httpServer: Server
-): Promise<ApolloServer<BaseContext>> {
+): Promise<ApolloServer<GraphQLContext>> {
   const { serverCleanup } = await createSubscriptionServer(schema, httpServer);
 
-  const apolloServer = new ApolloServer({
+  const apolloServer = new ApolloServer<GraphQLContext>({
     schema,
     introspection: process.env.ENV !== Environment.Production,
     plugins: [
