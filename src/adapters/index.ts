@@ -1,1 +1,1 @@
-export const index = 'adapters'
+export * as microservice from "./microservice/sample/sample.adapter";

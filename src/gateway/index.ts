@@ -1,1 +1,1 @@
-export const index = 'gateway'
+export { microserviceApiGateway } from './microservice/microservice-api.gateway';
