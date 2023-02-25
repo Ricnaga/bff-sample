@@ -5,7 +5,7 @@ import http from 'http';
 import Koa from 'koa';
 import bodyParser from "koa-bodyparser";
 import loggerMiddleware from 'koa-logger';
-import { createApolloServer } from './graphql/routing';
+import { initGraphqlRouting } from './graphql/routing';
 import { log } from './logger';
 
 const app = new Koa();
@@ -15,6 +15,6 @@ app.use(cors());
 app.use(bodyParser());
 app.use(loggerMiddleware());
 
-createApolloServer(app, httpServer);
+initGraphqlRouting(app, httpServer);
 
 httpServer.listen(process.env.PORT, () => log(`Server running on ${process.env.PORT}`));

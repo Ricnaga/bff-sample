@@ -4,7 +4,7 @@
 # -----------------------------------------------
 
 type Query {
-  getAllSample: SampleType!
+  getAllSample: [SampleType!]!
 }
 
 type SampleType {

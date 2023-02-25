@@ -5,18 +5,19 @@ import { Ctx, Field, ObjectType, Query, Resolver } from "type-graphql";
 @ObjectType()
 export class SampleType implements Sample {
   @Field()
-  id: string = "id";
+  id!: string;
 
   @Field()
-  nome: string = "nome";
+  nome!: string;
 
   @Field()
-  sobrenome: string = "sobrenome";
+  sobrenome!: string;
+
 }
 
 @Resolver()
 export class SampleResolver {
-  @Query((returns) => SampleType)
+  @Query((returns) => [SampleType])
   async getAllSample(@Ctx() ctx: GraphQLContext): Promise<Array<Sample>> {
     return ctx.adapters.microservice.sample();
   }
