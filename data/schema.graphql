@@ -1,60 +1,32 @@
 """This is a Date Scalar"""
 scalar Date
 
-"""This is a MORE Sample."""
-type MoreSample {
-  OtherName: String!
-  moreLastName: String!
-  moreName: String!
-  moreSampleObject: Sample!
-  moreUuid: ID!
-}
-
 type Mutation {
-  firstMoreSample: MoreSample!
-  relaySample(input: RelaySampleInput!): RelaySamplePayload!
-  secondMoreSample: MoreSample!
+  createSampleUser: SampleUser!
+  removeSampleUser: ID!
+  updateSampleUser: ID!
 }
 
-type OtherSample {
+type Query {
+  getAllSample: [Sample!]!
+  getSampleDetails: SampleDetails!
+}
+
+type Sample {
+  details: SampleDetails!
   id: ID!
   nome: String!
   sobrenome: String!
 }
 
-type Query {
-  firstMoreSample: MoreSample!
-  otherSample: OtherSample!
-  sample: Sample!
-  secondMoreExample: MoreSample!
-}
-
-input RelaySampleInput {
-  clientMutationId: ID
+type SampleDetails {
+  dataCriacao: String!
+  dataModificacao: String!
   id: ID!
-  nome: String
-  sobrenome: String
-  tipoEnum: String
 }
 
-type RelaySamplePayload {
-  clientMutationId: ID
-  noGlobalID: Sample!
-}
-
-enum SAMPLEENUM {
-  MORESAMPLE
-  SAMPLE
-}
-
-"""This is a Sample."""
-type Sample {
-  lastName: String!
-  name(input: SampleInput!): String!
-  uuid: ID!
-}
-
-input SampleInput {
-  name: ID!
-  sampleTipo: SAMPLEENUM
+type SampleUser {
+  dataCriacao: String!
+  id: ID!
+  nome: String!
 }

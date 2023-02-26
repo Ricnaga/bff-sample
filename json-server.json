@@ -1,3 +1,22 @@
 {
-  "mock": []
+  "sample": [
+    {
+      "id": "ID",
+      "name": "NAME",
+      "lastName": "LAST_NAME"
+    }
+  ],
+  "sample_details": [
+    {
+      "id": "ID",
+      "created_at": "2023-02-26T17:49:36.669Z",
+      "updated_at": "2023-02-26T17:49:56.485Z"
+    }
+  ],
+  "sample_user": [
+    {
+      "name": "TESTE NOME",
+      "id": "ID"
+    }
+  ]
 }

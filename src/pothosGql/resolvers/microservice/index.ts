@@ -1,0 +1,2 @@
+import './sampleController/sample.resolver';
+
