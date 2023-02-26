@@ -1,6 +1,6 @@
 import { logError, logInfo } from "@/logger";
 import { catchStatusCodeError } from "../../api/errorHandling";
-import { DetailsModel, SampleModel } from "./models/sample.model";
+import { SampleDetailsModel, SampleModel } from "./models/sample.model";
 import {
   microserviceApiGateway,
   MICROSERVICE_SAMPLE_SAMPLE_ENDPOINT,
@@ -29,9 +29,9 @@ export async function getSample(): Promise<Array<SampleModel>> {
     );
 }
 
-export async function getDetails(id: string): Promise<DetailsModel> {
+export async function getDetails(id: string): Promise<SampleDetailsModel> {
   return microserviceApiGateway
-    .get<DetailsModel>(
+    .get<SampleDetailsModel>(
       MICROSERVICE_SAMPLE_DETAILS_BYID_ENDPOINT.replace(":id", id)
     )
     .then((response) => response.data)

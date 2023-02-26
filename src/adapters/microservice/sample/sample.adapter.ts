@@ -1,4 +1,5 @@
-import { Details, Sample } from "@/domain/sample/sampleDomain";
+import { Sample } from "@/domain/sample/sampleDomain";
+import { SampleDetails } from "@/domain/sample/sampleDetailsDomain";
 import {
   getDetails,
   getSample,
@@ -9,5 +10,5 @@ export const sample = async (): Promise<Array<Sample>> =>
     return response.map((sample) => new Sample(sample));
   });
 
-export const details = async (id: string): Promise<Details> =>
-  getDetails(id).then((response) => new Details(response));
+export const details = async (id: string): Promise<SampleDetails> =>
+  getDetails(id).then((response) => new SampleDetails(response));

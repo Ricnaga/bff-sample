@@ -1,4 +1,5 @@
-import { Details, Sample } from "@/domain/sample/sampleDomain";
+import { Sample } from "@/domain/sample/sampleDomain";
+import { SampleDetails } from "@/domain/sample/sampleDetailsDomain";
 import { type GraphQLContext } from "@/graphql/context";
 import { Ctx, FieldResolver, Query, Resolver, Root } from "type-graphql";
 
@@ -9,11 +10,11 @@ export class SampleResolver {
     return ctx.adapters.microservice.sample();
   }
 
-  @FieldResolver((returns) => Details)
+  @FieldResolver((returns) => SampleDetails)
   async getSampleDetails(
     @Root() sample: Sample,
     @Ctx() ctx: GraphQLContext
-  ): Promise<Details> {
+  ): Promise<SampleDetails> {
     return ctx.adapters.microservice.details(Sample.getModelId(sample.id));
   }
 }
