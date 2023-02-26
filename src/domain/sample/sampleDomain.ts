@@ -1,13 +1,23 @@
 import { type SampleModel } from "@/gateway/microservice/sample/models/sample.model";
-import { toGlobalId } from "graphql-relay";
+import { ObjectType, Field } from "type-graphql";
+import { BaseDomain } from "../baseDomain";
 
-export class Sample {
-  id: string;
-  nome: string;
-  sobrenome: string;
+@ObjectType()
+export class Sample extends BaseDomain {
+  static readonly __typename = Sample.name;
+
+  @Field()
+  readonly id: string;
+
+  @Field()
+  readonly nome: string;
+
+  @Field()
+  readonly sobrenome: string;
 
   constructor(sampleModel: SampleModel) {
-    this.id = toGlobalId(Sample.name, sampleModel.id);
+    super();
+    this.id = Sample.toGlobalId(sampleModel.id);
     this.nome = sampleModel.name;
     this.sobrenome = sampleModel.lastName;
   }

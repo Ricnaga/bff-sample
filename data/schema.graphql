@@ -4,10 +4,10 @@
 # -----------------------------------------------
 
 type Query {
-  getAllSample: [SampleType!]!
+  getAllSample: [Sample!]!
 }
 
-type SampleType {
+type Sample {
   id: String!
   nome: String!
   sobrenome: String!
