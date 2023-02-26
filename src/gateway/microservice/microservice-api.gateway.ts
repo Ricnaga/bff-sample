@@ -18,4 +18,5 @@ microserviceApiGateway.setAuthorization = (authorizationBearer: string) => {
     authorizationBearer;
 };
 
-export const MICROSERVICE_SAMPLE_FIRSTENDPOINT_ENDPOINT = "/sample";
+export const MICROSERVICE_SAMPLE_SAMPLE_ENDPOINT = "/sample";
+export const MICROSERVICE_SAMPLE_DETAILS_BYID_ENDPOINT = `${MICROSERVICE_SAMPLE_SAMPLE_ENDPOINT}_details/:id`;

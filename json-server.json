@@ -9,7 +9,7 @@
   "sample_details": [
     {
       "id": "ID",
-      "createad_at": "00:00",
+      "created_at": "00:00",
       "updated_at": "12:32"
     }
   ]

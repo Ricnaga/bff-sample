@@ -3,11 +3,18 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Details {
+  dataCriacao: String!
+  dataModificacao: String!
+  id: String!
+}
+
 type Query {
   getAllSample: [Sample!]!
 }
 
 type Sample {
+  getSampleDetails: Details!
   id: String!
   nome: String!
   sobrenome: String!

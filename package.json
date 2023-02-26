@@ -4,7 +4,7 @@
   "scripts": {
     "clean": "yarn rimraf ./build",
     "start": "yarn clean && webpack --env ENV_FILE=.env.development --config .webpack/webpack.dev.js",
-    "mock": "json-server -p 3333 -d 1250 json-server.json"
+    "mock": "json-server -p 3333 -d 1250 --watch json-server.json"
   },
   "dependencies": {
     "@apollo/server": "^4.3.3",
