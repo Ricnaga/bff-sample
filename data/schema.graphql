@@ -1,15 +1,35 @@
+input CreateSampleUserInput {
+  clientMutationId: ID
+  nome: String!
+}
+
+type CreateSampleUserPayload {
+  clientMutationId: ID
+  id: ID!
+}
+
 """This is a Date Scalar"""
 scalar Date
 
 type Mutation {
-  createSampleUser(input: SampleCreateInput!): SampleUser!
-  removeSampleUser(input: SampleDeleteInput!): ID!
-  updateSampleUser(input: SampleUpdateInput!): ID!
+  createSampleUser(input: CreateSampleUserInput!): CreateSampleUserPayload!
+  removeSampleUser(input: RemoveSampleUserInput!): RemoveSampleUserPayload!
+  updateSampleUser(input: UpdateSampleUserInput!): UpdateSampleUserPayload!
 }
 
 type Query {
   getAllSample: [Sample!]!
   getSampleDetails: SampleDetails!
+}
+
+input RemoveSampleUserInput {
+  clientMutationId: ID
+  id: ID!
+}
+
+type RemoveSampleUserPayload {
+  clientMutationId: ID
+  id: ID!
 }
 
 type Sample {
@@ -19,27 +39,25 @@ type Sample {
   sobrenome: String!
 }
 
-input SampleCreateInput {
-  nome: String!
-}
-
-input SampleDeleteInput {
-  id: String!
-}
-
 type SampleDetails {
   dataCriacao: String!
   dataModificacao: String!
   id: ID!
 }
 
-input SampleUpdateInput {
-  id: String!
-  nome: String!
-}
-
 type SampleUser {
   dataCriacao: String!
   id: ID!
   nome: String!
+}
+
+input UpdateSampleUserInput {
+  clientMutationId: ID
+  id: ID!
+  nome: String!
+}
+
+type UpdateSampleUserPayload {
+  clientMutationId: ID
+  id: ID!
 }

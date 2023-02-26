@@ -73,71 +73,82 @@ export const SampleUserTypeRef = builder
     }),
   });
 
-const SampleCreateInput = builder
-  .inputRef<{ nome: string }>("SampleCreateInput")
-  .implement({
-    fields: (t) => ({
-      nome: t.string({ required: true }),
+builder.relayMutationField(
+  "createSampleUser",
+  {
+    inputFields: (t) => ({
+      nome: t.string({
+        required: true,
+      }),
     }),
-  });
-const SampleDeleteInput = builder
-  .inputRef<{ id: string }>("SampleDeleteInput")
-  .implement({
-    fields: (t) => ({
-      id: t.string({ required: true }),
-    }),
-  });
-
-const SampleUpdateInput = builder
-  .inputRef<Record<"id" | "nome", string>>("SampleUpdateInput")
-  .implement({
-    fields: (t) => ({
-      id: t.string({ required: true }),
-      nome: t.string({ required: true }),
-    }),
-  });
-
-builder.mutationField("createSampleUser", (t) =>
-  t.field({
-    type: SampleUserTypeRef,
-    args: {
-      input: t.arg({ type: SampleCreateInput, required: true }),
-    },
-    resolve: (root, args) =>
-      new SampleUser({
+  },
+  {
+    resolve: async (root, args) => ({
+      id: new SampleUser({
         id: "id",
         name: args.input.nome,
         created_at: "created_at",
+      }).id,
+    }),
+  },
+  {
+    outputFields: (t) => ({
+      id: t.globalID({
+        resolve: (parent) => encodeGlobalID(SampleUser.name, parent.id),
       }),
-  })
+    }),
+  }
 );
 
-builder.mutationField("removeSampleUser", (t) =>
-  t.field({
-    type: "ID",
-    args: {
-      input: t.arg({ type: SampleDeleteInput, required: true }),
-    },
-    resolve: (root, args) =>
-      new SampleUser({
-        id: args.input.id,
+builder.relayMutationField(
+  "removeSampleUser",
+  {
+    inputFields: (t) => ({
+      id: t.id({
+        required: true,
+      }),
+    }),
+  },
+  {
+    resolve: async (root, args) => ({
+      id: new SampleUser({
+        id: args.input.id.toString(),
         name: "name",
         created_at: "created_at",
       }).id,
-  })
+    }),
+  },
+  {
+    outputFields: (t) => ({
+      id: t.exposeID("id"),
+    }),
+  }
 );
 
-builder.mutationField("updateSampleUser", (t) =>
-  t.field({
-    type: "ID",
-    args: {
-      input: t.arg({ type: SampleUpdateInput, required: true }),
-    },
-    resolve: (root, args) =>
-      new SampleUser({
-        id: args.input.id,
-        name: args.input.nome,
+builder.relayMutationField(
+  "updateSampleUser",
+  {
+    inputFields: (t) => ({
+      id: t.id({
+        required: true,
+      }),
+      nome: t.string({
+        required: true,
+      }),
+    }),
+  },
+  {
+    resolve: async (root, args) => ({
+      id: new SampleUser({
+        id: args.input.id.toString(),
+        name: "name",
         created_at: "created_at",
       }).id,
-  })
+    }),
+  },
+  {
+    outputFields: (t) => ({
+      id: t.exposeID("id"),
+    }),
+  }
 );
