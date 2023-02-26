@@ -2,9 +2,9 @@
 scalar Date
 
 type Mutation {
-  createSampleUser: SampleUser!
-  removeSampleUser: ID!
-  updateSampleUser: ID!
+  createSampleUser(input: SampleCreateInput!): SampleUser!
+  removeSampleUser(input: SampleDeleteInput!): ID!
+  updateSampleUser(input: SampleUpdateInput!): ID!
 }
 
 type Query {
@@ -19,10 +19,23 @@ type Sample {
   sobrenome: String!
 }
 
+input SampleCreateInput {
+  nome: String!
+}
+
+input SampleDeleteInput {
+  id: String!
+}
+
 type SampleDetails {
   dataCriacao: String!
   dataModificacao: String!
   id: ID!
+}
+
+input SampleUpdateInput {
+  id: String!
+  nome: String!
 }
 
 type SampleUser {

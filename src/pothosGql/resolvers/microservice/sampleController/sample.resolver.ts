@@ -25,12 +25,13 @@ export const SampleTypeRef = builder.objectRef<Sample>(Sample.name).implement({
     sobrenome: t.exposeString("nome"),
     details: t.field({
       type: SampleDetailsTypeRef,
-      resolve: () =>
-        new SampleDetails({
-          id: "ID",
+      resolve: (root) => {
+        return new SampleDetails({
+          id: root.id,
           created_at: "created_at",
           updated_at: "updated_at",
-        }),
+        });
+      },
     }),
   }),
 });
@@ -72,26 +73,71 @@ export const SampleUserTypeRef = builder
     }),
   });
 
+const SampleCreateInput = builder
+  .inputRef<{ nome: string }>("SampleCreateInput")
+  .implement({
+    fields: (t) => ({
+      nome: t.string({ required: true }),
+    }),
+  });
+const SampleDeleteInput = builder
+  .inputRef<{ id: string }>("SampleDeleteInput")
+  .implement({
+    fields: (t) => ({
+      id: t.string({ required: true }),
+    }),
+  });
+
+const SampleUpdateInput = builder
+  .inputRef<Record<"id" | "nome", string>>("SampleUpdateInput")
+  .implement({
+    fields: (t) => ({
+      id: t.string({ required: true }),
+      nome: t.string({ required: true }),
+    }),
+  });
+
 builder.mutationField("createSampleUser", (t) =>
   t.field({
     type: SampleUserTypeRef,
-    resolve: () =>
-      new SampleUser({ id: "id", name: "name", created_at: "created_at" }),
+    args: {
+      input: t.arg({ type: SampleCreateInput, required: true }),
+    },
+    resolve: (root, args) =>
+      new SampleUser({
+        id: "id",
+        name: args.input.nome,
+        created_at: "created_at",
+      }),
   })
 );
 
 builder.mutationField("removeSampleUser", (t) =>
   t.field({
     type: "ID",
-    resolve: () =>
-      new SampleUser({ id: "id", name: "name", created_at: "created_at" }).id,
+    args: {
+      input: t.arg({ type: SampleDeleteInput, required: true }),
+    },
+    resolve: (root, args) =>
+      new SampleUser({
+        id: args.input.id,
+        name: "name",
+        created_at: "created_at",
+      }).id,
   })
 );
 
 builder.mutationField("updateSampleUser", (t) =>
   t.field({
     type: "ID",
-    resolve: () =>
-      new SampleUser({ id: "id", name: "name", created_at: "created_at" }).id,
+    args: {
+      input: t.arg({ type: SampleUpdateInput, required: true }),
+    },
+    resolve: (root, args) =>
+      new SampleUser({
+        id: args.input.id,
+        name: args.input.nome,
+        created_at: "created_at",
+      }).id,
   })
 );
