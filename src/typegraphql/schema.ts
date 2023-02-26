@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { rootPath } from "@/config";
 import { buildSchema } from "type-graphql";
 import { resolvers } from "./resolvers";

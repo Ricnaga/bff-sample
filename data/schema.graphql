@@ -6,20 +6,45 @@
 """Brazillian Date"""
 scalar DateBR
 
+type Mutation {
+  createSampleUser(input: SampleCreateInput!): SampleUser!
+  removeSampleUser(input: SampleRemoveInput!): SampleUser!
+  updateSampleUser(input: SampleUpdateInput!): SampleUser!
+}
+
 type Query {
   getAllSample: [Sample!]!
   getSampleDetails(id: String): SampleDetails!
 }
 
 type Sample {
-  getSampleDetails: SampleDetails!
+  details: SampleDetails!
   id: ID!
   nome: String!
   sobrenome: String!
+}
+
+input SampleCreateInput {
+  nome: String
 }
 
 type SampleDetails {
   dataCriacao: DateBR!
   dataModificacao: DateBR!
   id: ID!
+}
+
+input SampleRemoveInput {
+  id: ID
+}
+
+input SampleUpdateInput {
+  id: ID
+  nome: String
+}
+
+type SampleUser {
+  dataCriacao: DateBR!
+  id: ID!
+  nome: String!
 }
