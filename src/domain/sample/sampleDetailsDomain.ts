@@ -1,18 +1,19 @@
 import { type SampleDetailsModel } from "@/gateway/microservice/sample/models/sample.model";
-import { ObjectType, Field } from "type-graphql";
+import { DateBRScalar } from "@/typegraphql/scalar/DateBR";
+import { ObjectType, Field, ID } from "type-graphql";
 import { BaseDomain } from "../baseDomain";
 
 @ObjectType()
 export class SampleDetails extends BaseDomain {
   static readonly __typename = SampleDetails.name;
 
-  @Field()
+  @Field(type => ID!)
   readonly id: string;
 
-  @Field()
+  @Field(type => DateBRScalar)
   readonly dataCriacao: string;
 
-  @Field()
+  @Field(type => DateBRScalar)
   readonly dataModificacao: string;
 
   constructor(sampleDetailsModel: SampleDetailsModel) {

@@ -1,12 +1,12 @@
 import { type SampleModel } from "@/gateway/microservice/sample/models/sample.model";
-import { ObjectType, Field } from "type-graphql";
+import { ObjectType, Field, ID } from "type-graphql";
 import { BaseDomain } from "../baseDomain";
 
 @ObjectType()
 export class Sample extends BaseDomain {
   static readonly __typename = Sample.name;
 
-  @Field()
+  @Field(type => ID!)
   readonly id: string;
 
   @Field()

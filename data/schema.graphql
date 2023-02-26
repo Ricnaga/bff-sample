@@ -3,19 +3,23 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Brazillian Date"""
+scalar DateBR
+
 type Query {
   getAllSample: [Sample!]!
+  getSampleDetails(id: String): SampleDetails!
 }
 
 type Sample {
   getSampleDetails: SampleDetails!
-  id: String!
+  id: ID!
   nome: String!
   sobrenome: String!
 }
 
 type SampleDetails {
-  dataCriacao: String!
-  dataModificacao: String!
-  id: String!
+  dataCriacao: DateBR!
+  dataModificacao: DateBR!
+  id: ID!
 }
