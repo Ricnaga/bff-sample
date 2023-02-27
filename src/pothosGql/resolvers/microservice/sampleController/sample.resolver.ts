@@ -31,15 +31,8 @@ export const SampleTypeRef = builder.objectRef<Sample>(Sample.name).implement({
   }),
 });
 
-builder.queryField("getAllSample", (t) =>
-  t.field({
-    type: [SampleTypeRef],
-    resolve: async (root, args, ctx) => ctx.adapters.microservice.sample(),
-  })
-);
-
-builder.queryField("getSampleDetails", (t) =>
-  t.field({
+builder.queryFields((t) => ({
+  getSampleDetails: t.field({
     type: SampleDetailsTypeRef,
     args: {
       id: t.arg.id({
@@ -48,8 +41,12 @@ builder.queryField("getSampleDetails", (t) =>
     },
     resolve: async (root, args, ctx) =>
       ctx.adapters.microservice.details(decodeGlobalID(args.id.toString()).id),
-  })
-);
+  }),
+  getAllSample: t.field({
+    type: [SampleTypeRef],
+    resolve: async (root, args, ctx) => ctx.adapters.microservice.sample(),
+  }),
+}));
 
 export const SampleUserTypeRef = builder
   .objectRef<SampleUser>(SampleUser.name)
