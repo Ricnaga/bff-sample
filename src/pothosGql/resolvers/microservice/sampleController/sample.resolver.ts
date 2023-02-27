@@ -2,7 +2,7 @@ import { SampleDetails } from "@/domain/sample/sampleDetailsDomain";
 import { Sample } from "@/domain/sample/sampleDomain";
 import { SampleUser } from "@/domain/sample/sampleUserDomain";
 import { builder } from "@/pothosGql/builder";
-import { encodeGlobalID } from "@pothos/plugin-relay";
+import { decodeGlobalID, encodeGlobalID } from "@pothos/plugin-relay";
 
 export const SampleDetailsTypeRef = builder
   .objectRef<SampleDetails>(SampleDetails.name)
@@ -25,13 +25,8 @@ export const SampleTypeRef = builder.objectRef<Sample>(Sample.name).implement({
     sobrenome: t.exposeString("nome"),
     details: t.field({
       type: SampleDetailsTypeRef,
-      resolve: (root) => {
-        return new SampleDetails({
-          id: root.id,
-          created_at: "created_at",
-          updated_at: "updated_at",
-        });
-      },
+      resolve: async (root, args, ctx) =>
+        ctx.adapters.microservice.details(root.id),
     }),
   }),
 });
@@ -39,25 +34,20 @@ export const SampleTypeRef = builder.objectRef<Sample>(Sample.name).implement({
 builder.queryField("getAllSample", (t) =>
   t.field({
     type: [SampleTypeRef],
-    resolve: () => [
-      new Sample({
-        id: "ID",
-        name: "otherName",
-        lastName: "otherLastName",
-      }),
-    ],
+    resolve: async (root, args, ctx) => ctx.adapters.microservice.sample(),
   })
 );
 
 builder.queryField("getSampleDetails", (t) =>
   t.field({
     type: SampleDetailsTypeRef,
-    resolve: () =>
-      new SampleDetails({
-        id: "ID",
-        created_at: "created_at",
-        updated_at: "updated_at",
+    args: {
+      id: t.arg.id({
+        required: true,
       }),
+    },
+    resolve: async (root, args, ctx) =>
+      ctx.adapters.microservice.details(decodeGlobalID(args.id.toString()).id),
   })
 );
 
@@ -83,13 +73,12 @@ builder.relayMutationField(
     }),
   },
   {
-    resolve: async (root, args) => ({
-      id: new SampleUser({
-        id: "id",
+    resolve: async (root, args, ctx) =>
+      ctx.adapters.microservice.create({
+        id: encodeGlobalID(SampleUser.name, "ID"),
         name: args.input.nome,
-        created_at: "created_at",
-      }).id,
-    }),
+        created_at: new Date().toISOString(),
+      }),
   },
   {
     outputFields: (t) => ({
@@ -110,13 +99,15 @@ builder.relayMutationField(
     }),
   },
   {
-    resolve: async (root, args) => ({
-      id: new SampleUser({
-        id: args.input.id.toString(),
-        name: "name",
-        created_at: "created_at",
-      }).id,
-    }),
+    resolve: async (root, args, ctx) => {
+      await ctx.adapters.microservice.remove(
+        decodeGlobalID(args.input.id.toString()).id
+      );
+
+      return {
+        id: args.input.id,
+      };
+    },
   },
   {
     outputFields: (t) => ({
@@ -138,13 +129,15 @@ builder.relayMutationField(
     }),
   },
   {
-    resolve: async (root, args) => ({
-      id: new SampleUser({
-        id: args.input.id.toString(),
-        name: "name",
-        created_at: "created_at",
-      }).id,
-    }),
+    resolve: async (root, args, ctx) => {
+      await ctx.adapters.microservice.update(
+        decodeGlobalID(args.input.id.toString()).id,
+        args.input.nome
+      );
+      return {
+        id: args.input.id,
+      };
+    },
   },
   {
     outputFields: (t) => ({

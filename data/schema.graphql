@@ -19,7 +19,7 @@ type Mutation {
 
 type Query {
   getAllSample: [Sample!]!
-  getSampleDetails: SampleDetails!
+  getSampleDetails(id: ID!): SampleDetails!
 }
 
 input RemoveSampleUserInput {
