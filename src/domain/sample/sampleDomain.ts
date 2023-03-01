@@ -1,4 +1,4 @@
-import { type SampleModel } from "@/gateway/microservice/sample/models/sample.model";
+import { type SampleModel } from "@/gateway/sample/sample/models/sample.model";
 import { ObjectType, Field, ID } from "type-graphql";
 import { BaseDomain } from "../baseDomain";
 

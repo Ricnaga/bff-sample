@@ -1,4 +1,4 @@
-import { type SampleUserModel } from "@/gateway/microservice/sample/models/sample.model";
+import { type SampleUserModel } from "@/gateway/sampleUser/sampleUser/models/sampleUser.model";
 import { DateBRScalar } from "@/typegraphql/scalar/DateBR";
 import { ObjectType, Field, ID } from "type-graphql";
 import { BaseDomain } from "../baseDomain";
