@@ -1,38 +1,11 @@
-import { SampleDetails } from "@/domain/sample/sampleDetailsDomain";
-import { Sample } from "@/domain/sample/sampleDomain";
 import { SampleUser } from "@/domain/sample/sampleUserDomain";
 import { builder } from "@/pothosGql/builder";
 import { decodeGlobalID, encodeGlobalID } from "@pothos/plugin-relay";
+import { SampleDetailsTypeRef, SampleTypeRef } from "./sample.types";
 
-export const SampleDetailsTypeRef = builder
-  .objectRef<SampleDetails>(SampleDetails.name)
-  .implement({
-    fields: (t) => ({
-      id: t.globalID({
-        resolve: (parent) => encodeGlobalID(SampleDetails.name, parent.id),
-      }),
-      dataCriacao: t.exposeString("dataCriacao"),
-      dataModificacao: t.exposeString("dataModificacao"),
-    }),
-  });
-
-export const SampleTypeRef = builder.objectRef<Sample>(Sample.name).implement({
-  fields: (t) => ({
-    id: t.globalID({
-      resolve: (parent) => encodeGlobalID(Sample.name, parent.id),
-    }),
-    nome: t.exposeString("id"),
-    sobrenome: t.exposeString("nome"),
-    details: t.field({
-      type: SampleDetailsTypeRef,
-      resolve: async (root, args, ctx) =>
-        ctx.adapters.microservice.details(root.id),
-    }),
-  }),
-});
 
 builder.queryFields((t) => ({
-  getSampleDetails: t.field({
+  sampleDetails: t.field({
     type: SampleDetailsTypeRef,
     args: {
       id: t.arg.id({
@@ -42,23 +15,11 @@ builder.queryFields((t) => ({
     resolve: async (root, args, ctx) =>
       ctx.adapters.microservice.details(decodeGlobalID(args.id.toString()).id),
   }),
-  getAllSample: t.field({
+  samples: t.field({
     type: [SampleTypeRef],
     resolve: async (root, args, ctx) => ctx.adapters.microservice.sample(),
   }),
 }));
-
-export const SampleUserTypeRef = builder
-  .objectRef<SampleUser>(SampleUser.name)
-  .implement({
-    fields: (t) => ({
-      id: t.globalID({
-        resolve: (parent) => encodeGlobalID(SampleUser.name, parent.id),
-      }),
-      nome: t.exposeString("nome"),
-      dataCriacao: t.exposeString("dataCriacao"),
-    }),
-  });
 
 builder.relayMutationField(
   "createSampleUser",
